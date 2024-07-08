@@ -7,7 +7,7 @@ from pycbc.waveform import td_approximants, fd_approximants
 import pycbc.conversions
 from pycbc.types import TimeSeries
 
-def hyper_waveform(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2, theta2i, phi2i, **kwds):
+def hyperbolic_waveform_td(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2, theta2i, phi2i, **kwds):
     #existing parameters
     m1 = kwds['mass1']
     m2 = kwds['mass2']

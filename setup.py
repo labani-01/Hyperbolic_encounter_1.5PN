@@ -13,9 +13,9 @@ VERSION = '0.0.dev0'
 
 
 setup (
-    name = 'pycbc-constlosAcc',
+    name = 'pycbc-15PNhphcHyperbolic',
     version = VERSION,
-    description = 'New waveform incorporating doppler shift when a new parameter, line of sight acceleration is constant plugin PyCBC',
+    description = 'New waveform to generate hyperbolic encounter plugin PyCBC',
     long_description = open('descr.rst').read(),
     author = 'The PyCBC team',
     author_email = 'labannyo2000@gmail.org',
@@ -24,7 +24,7 @@ setup (
     keywords = ['pycbc', 'signal processing', 'gravitational waves'],
     install_requires = ['pycbc'],
     py_modules = ['15PNhphcHyperbolic'],
-    entry_points = {"pycbc.waveform.td":"15PNhphcHyperbolic = 15PNhphcHyperbolic:hyper_waveform"},
+    entry_points = {"pycbc.waveform.td":"15PNhphcHyperbolic = 15PNhphcHyperbolic:hyperbolic_waveform_td"},
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
