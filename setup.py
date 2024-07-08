@@ -20,7 +20,7 @@ setup (
     author = 'The PyCBC team',
     author_email = 'labannyo2000@gmail.org',
     url = 'http://www.pycbc.org/',
-    download_url = 'https://github.com/labani-01/pycbc_acceleration_waveform',
+    download_url = 'https://github.com/labani-01/Hyperbolic_encounter_1.5PN',
     keywords = ['pycbc', 'signal processing', 'gravitational waves'],
     install_requires = ['pycbc'],
     py_modules = ['15PNhphcHyperbolic'],
