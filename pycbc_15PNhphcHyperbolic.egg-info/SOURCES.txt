@@ -1,0 +1,8 @@
+README.md
+setup.py
+pycbc_15PNhphcHyperbolic.egg-info/PKG-INFO
+pycbc_15PNhphcHyperbolic.egg-info/SOURCES.txt
+pycbc_15PNhphcHyperbolic.egg-info/dependency_links.txt
+pycbc_15PNhphcHyperbolic.egg-info/entry_points.txt
+pycbc_15PNhphcHyperbolic.egg-info/requires.txt
+pycbc_15PNhphcHyperbolic.egg-info/top_level.txt

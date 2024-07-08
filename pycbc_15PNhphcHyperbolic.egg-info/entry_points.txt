@@ -1,0 +1,2 @@
+[pycbc.waveform.td]
+15PNhphcHyperbolic = 15PNhphcHyperbolic:hyperbolic_waveform_td
