@@ -1,3 +1,4 @@
+15PNhphcHyperbolic.py
 README.md
 setup.py
 pycbc_15PNhphcHyperbolic.egg-info/PKG-INFO
