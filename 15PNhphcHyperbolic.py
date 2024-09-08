@@ -7,6 +7,13 @@ from pycbc.waveform import td_approximants, fd_approximants
 import pycbc.conversions
 from pycbc.types import TimeSeries
 
+
+#Unit conversion
+GMsun = 1.32712440018e20 #m**3/s**2 
+c = 299792458 #m/s
+Mpc = 3.08567758128e+22 # m
+
+
 def hyperbolic_waveform_td(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2, theta2i, phi2i, **kwds):
     #existing parameters
     m1 = kwds['mass1']
@@ -226,8 +233,11 @@ def hyperbolic_waveform_td(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2
 
     nothplus = ((qn2-pn2)*z+pv2-qv2)-(delta/2)*((Nn*dr-Nv)*z*pn2-6*z*Nn*pn*pv+(-3*Nn*dr+Nv)*z*qn2+6*z*Nn*qn*qv+2*(pv2-qv2)*Nv)+(1.0/6)*(6*Nv2*(pv2-qv2)*(1-3*eta) +((6*eta-2)*Nv2*pn2+(96*eta-32)*Nv*Nn*pv*pn+(-6*eta+2)*Nv2*qn2+(-96*eta+32)*Nv*Nn*qv*qn+((-14+42*eta)*Nn2-4+6*eta)*pv2+((-42*eta+14)*Nn2+4-6*eta)*qv2)*z + ((-9*eta+3)*pv2+(-3+9*eta)*qv2)*vv+((29+(7-21*eta)*Nn2)*pn2+(-29+(21*eta-7)*Nn2)*qn2)*z2+(((-9*eta+3)*Nn2-10-3*eta)*pn2+((-3+9*eta)*Nn2+10+3*eta)*qn2)*z*vv + ((-36*eta+12)*Nv*Nn*pn2+((-90*eta+30)*Nn2+20+12*eta)*pv*pn+(-12+36*eta)*Nv*Nn*qn2+((90*eta-30)*Nn2-12*eta-20)*qv*qn)*z*dr+(((45*eta-15)*Nn2-9*eta+3)*pn2 + ((15-45*eta)*Nn2-3+9*eta)*qn2)*z*dr2)+z2*(pn*(X2*chi2*ps2xN-X1*chi1*ps1xN)+qn*(X1*chi1*qs1xN-X2*chi2*qs2xN))
 
-    hcross = (4*eta/R)*nothcross
-    hplus = (2*eta/R)*nothplus
+    #unitless distance
+    R1 = ((c**2)/(GMsun*(m1+m2)))*R*Mpc 
+
+    hcross = (4*eta/R1)*nothcross
+    hplus = (2*eta/R1)*nothplus
     
     #print(hcross, hplus)
     
