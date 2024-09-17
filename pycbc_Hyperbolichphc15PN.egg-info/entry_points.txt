@@ -1,0 +1,5 @@
+[pycbc.waveform.length]
+Hyperbolichphc15PN = Hyperbolichphc15PN:sig_length
+
+[pycbc.waveform.td]
+Hyperbolichphc15PN = Hyperbolichphc15PN:hyperbolic_waveform_td

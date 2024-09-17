@@ -253,5 +253,17 @@ def hyperbolic_waveform_td(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2
     
 
 
-def sig_length(a, b):
-    return (a*b - 1)
+def sig_length(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2, theta2i, phi2i, **kwds):
+    #existing parameters
+    dt = kwds['delta_t']
+    from pycbc.waveform import get_td_waveform
+    from pycbc.waveform import td_approximants, fd_approximants
+    from pycbc.types import TimeSeries
+    import numpy as np
+    if 'approximant' in kwds:
+        kwds.pop('approximant')
+    hp,hc = get_td_waveform(approximant,Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2, theta2i, phi2i, **kwds)
+    duration = len(hp)*dt 
+    return duration
+
+
