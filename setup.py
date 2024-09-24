@@ -24,7 +24,6 @@ setup (
     keywords = ['pycbc', 'signal processing', 'gravitational waves'],
     install_requires = ['pycbc'],
     py_modules = ['Hyperbolichphc15PN'],
-    #py_functions = ['15PNhphcHyperbolic:sig_length'],
     entry_points = {"pycbc.waveform.td":"Hyperbolichphc15PN = Hyperbolichphc15PN:hyperbolic_waveform_td", 
                    "pycbc.waveform.length": "Hyperbolichphc15PN = Hyperbolichphc15PN:sig_length"},
     classifiers=[
