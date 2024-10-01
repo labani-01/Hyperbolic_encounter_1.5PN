@@ -253,16 +253,53 @@ def hyperbolic_waveform_td(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2
     
 
 
-def sig_length(**kwargs):
-    #dt = kwargs['delta_t']
+def hyperbolic_waveform_fd(**kwds): 
     from pycbc.waveform import get_td_waveform
+    from pycbc.waveform.utils import apply_fseries_time_shift
+    from pycbc.waveform import td_approximants, fd_approximants
+    from pycbc.waveform import utils as wfutils
     import numpy as np
-    print("test0")
-    hp,_ = get_td_waveform(**kwargs)
-    print("test1")
-    duration = len(hp)*hp.delta_t
-    print("test2")
-    return duration
+    if 'approximant' in kwds:
+        kwds.pop('approximant')
+    hp, hc = get_td_waveform(approximant="Hyperbolichphc15PN", **kwds)
+    
+    kwds.update({
+        "approximant": "Hyperbolichphc15PN",  
+        })
+    nparams = kwds.copy()
+    
+    full_duration = duration = len(hp)*hp.delta_t
+    
+    if 'f_fref' not in nparams:
+        nparams['f_ref'] = kwds['f_lower']
+    # We'll try to do the right thing and figure out what the frequency
+    # end is. Otherwise, we'll just assume 2048 Hz.
+    # (consider removing as we hopefully have better estimates for more
+    # approximants
+    try:
+        f_end = get_waveform_end_frequency(**kwds)
+        delta_t = (0.5 / pnutils.nearest_larger_binary_number(f_end))
+    except:
+        delta_t = 1.0 / 2048
+    nparams['delta_t'] = delta_t
+    hp, hc = get_td_waveform(**nparams)
+    # Resize to the right duration
+    tsamples = int(1.0 / kwds['delta_f'] / delta_t)
+    #if tsamples < len(hp):
+        #raise ValueError("The frequency spacing (df = {}) is too low to "
+                         #"generate the {} approximant from the time "
+                         #"domain".format(params['delta_f'], params['approximant']))
+ 
+    # apply the tapering, we will use a safety factor here to allow for
+    # somewhat innacurate duration difference estimation.
+    #window = (full_duration - duration) * 0.8
+    #hp = wfutils.td_taper(hp, hp.start_time, hp.start_time + window)
+    #hc = wfutils.td_taper(hc, hc.start_time, hc.start_time + window)
+    # avoid wraparound
+    hp = hp.to_frequencyseries().cyclic_time_shift(hp.start_time)
+    hc = hc.to_frequencyseries().cyclic_time_shift(hc.start_time)
+    return hp, hc
+    
     
 
 
