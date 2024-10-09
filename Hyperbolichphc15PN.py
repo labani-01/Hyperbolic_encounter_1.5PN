@@ -37,7 +37,7 @@ def hphc_15PN(m1,m2,chi1,theta1i,phi1i,chi2,theta2i,phi2i,xi0,et0,Phi0,t0,tf,N_e
 	#initial spins
      
 	S2 = chi2*(m2/m1)
-	#S1 = chi1*(m1/m2)
+	S1 = chi1*(m1/m2)
 	s10 = np.array([np.sin(theta1i)*np.cos(phi1i),np.sin(theta1i)*np.sin(phi1i),np.cos(theta1i)])
 	s20 = np.array([np.sin(theta2i)*np.cos(phi2i),np.sin(theta2i)*np.sin(phi2i),np.cos(theta2i)])
 	Seff0 = delta1*S1*s10 + delta2*S2*s20
