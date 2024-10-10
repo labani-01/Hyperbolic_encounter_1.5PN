@@ -1,12 +1,6 @@
 import numpy as np
 from scipy.integrate import solve_ivp
-from matplotlib import pyplot as plt
-pi = np.pi
-from pycbc.waveform import get_td_waveform
-from pycbc.waveform import td_approximants, fd_approximants
-import pycbc.conversions
 from pycbc.types import TimeSeries
-
 
 #Unit conversion
 GMsun = 1.32712440018e20 #m**3/s**2 
@@ -14,24 +8,29 @@ c = 299792458 #m/s
 Mpc = 3.08567758128e+22 # m
 
 
-def hyperbolic_waveform_td(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2, theta2i, phi2i, **kwds):
-    #existing parameters
-    m1 = kwds['mass1']
-    m2 = kwds['mass2']
-    dt = kwds['delta_t']
-    et0 = kwds['eccentricity']
-    R = kwds['distance']
-    Theta = kwds['inclination']
-    
-    
-    #initial and final times of simulation
-    tspan = np.array([t0,tf])
-    t_eval = np.linspace(t0,tf,N_eval)
-    
-    
-    M = pycbc.conversions.mtotal_from_mass1_mass2(m1, m2)
+def hphc_15PN(Phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t):
+    #derived quantities
+	#time intervals
+	#go from imput parameters to simulation parameters
+    j0 = np.sqrt(et0**2-1)
+    xi0 = (np.sqrt((et0-1)/(et0+1))*vmax)**3
+
+	#simulation time interval array
+    t0_s = -duration/2.0
+    tf_s = duration/2.0
+    sample_rate = 1/delta_t
+    t_eval_s = delta_t*np.arange(int(t0_s*sample_rate),int(tf_s*sample_rate))
+    N_eval = t_eval_s.size 		
+
+	#go from SI imput units to obscure simulation units (event is centered)
+    t_eval = (t_eval_s-t_eval_s[N_eval//2])/(GMsun*(m1+m2)/(c**3)) # GM=c=1 units
+    t0 = t_eval[0] 
+    tf = t_eval[N_eval-1]
+	
+	#masses
+    M = m1+m2
     mu = m1*m2/M
-    eta = pycbc.conversions.eta_from_mass1_mass2(m1, m2)
+    eta = mu/M
     if m1==m2: eta = 0.25
     delta1 = 0.5*eta+0.75*(1-np.sqrt(1-4*eta))
     delta2 = 0.5*eta+0.75*(1+np.sqrt(1-4*eta))
@@ -238,20 +237,10 @@ def hyperbolic_waveform_td(Phi0, t0, tf, N_eval, xi0, chi1, theta1i, phi1i, chi2
 
     hcross = (4*eta/R1)*nothcross
     hplus = (2*eta/R1)*nothplus
-    
-    #print(hcross, hplus)
-    
-    hp = TimeSeries(hplus, delta_t=dt)
-    hc = TimeSeries(hcross, delta_t=dt)
-    
-    t = hp.sample_times - hp.sample_times[np.argmax(hp)+1]
-    
-    hp = TimeSeries(hplus, delta_t=dt, epoch=min(t))
-    hc = TimeSeries(hcross, delta_t=dt, epoch=min(t))
-
-    return  hp, hc
+    return  hplus, hcross
     
 
 
-def sig_length(a, b):
-    return (a*b - 1)
+    
+
+

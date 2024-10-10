@@ -1,5 +1,0 @@
-[pycbc.waveform.fd]
-pycbc_hyperbolic15PN = pycbc_hyperbolic15PN:hyperbolic_waveform_fd
-
-[pycbc.waveform.td]
-pycbc_hyperbolic15PN = pycbc_hyperbolic15PN:hyperbolic_waveform_td
