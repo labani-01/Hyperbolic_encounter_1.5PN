@@ -23,10 +23,11 @@ def hphc_15PN(Phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, 
     N_eval = t_eval_s.size 		
 
 	#go from SI imput units to obscure simulation units (event is centered)
-    t_eval = (t_eval_s-t_eval_s[N_eval//2])/(GMsun*(m1+m2)/(c**3)) # GM=c=1 units
-    t0 = t_eval[0] 
-    tf = t_eval[N_eval-1]
-	
+    t_evaln = (t_eval_s-t_eval_s[N_eval//2])/(GMsun*(m1+m2)/(c**3)) # GM=c=1 units
+    t0 = t_evaln[0] 
+    tf = t_evaln[N_eval-1]
+    tspan = np.array([t0,tf])
+    t_eval = np.linspace(t0,tf,N_eval)
 	#masses
     M = m1+m2
     mu = m1*m2/M

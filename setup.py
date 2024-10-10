@@ -25,7 +25,7 @@ setup (
     install_requires = ['pycbc'],
     py_modules = ['hyperbolic_waveform_generate','Hyperbolic15PNhphc'],
     entry_points = {"pycbc.waveform.td":"Hyperbolic15PNhphc = Hyperbolic15PNhphc:hyperbolic_waveform_td", 
-                   "pycbc.waveform.fd": "Hyperbolic15PNhphc = Hyperbolic15PNhphc:hyperbolic_waveform_fd"},
+                    "pycbc.waveform.fd": "Hyperbolic15PNhphc = Hyperbolic15PNhphc:hyperbolic_waveform_fd"},
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',

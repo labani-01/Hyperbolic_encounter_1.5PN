@@ -24,15 +24,15 @@ def hyperbolic_waveform_td(Phi0, vmax, duration, **kwds):
     theta2i = kwds['spin2_polar']
     delta_t = kwds['delta_t']
 
-    hp, hc = hyperbolic_waveform_generate.hphc_15PN(Phi0, vmax, duration, **kwds)
+    hp, hc = hyperbolic_waveform_generate.hphc_15PN(Phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t)
 
-    hp = TimeSeries(hplus, delta_t)
-    hc = TimeSeries(hcross, delta_t)
+    hp = TimeSeries(hp, delta_t)
+    hc = TimeSeries(hc, delta_t)
 
     t = hp.sample_times - hp.sample_times[np.argmax(hp)+1]
 
-    hp = TimeSeries(hplus, delta_t, epoch=min(t))
-    hc = TimeSeries(hcross, delta_t, epoch=min(t))
+    hp = TimeSeries(hp, delta_t, epoch=min(t))
+    hc = TimeSeries(hc, delta_t, epoch=min(t))
     return hp, hc
 
 
@@ -44,10 +44,10 @@ def hyperbolic_waveform_fd(**kwds):
     import numpy as np
     if 'approximant' in kwds:
         kwds.pop('approximant')
-    hp, hc = get_td_waveform(approximant="Hyperbolic15PNhphc.py", **kwds)
+    hp, hc = get_td_waveform(approximant="Hyperbolic15PNhphc", **kwds)
 
     kwds.update({
-        "approximant": "Hyperbolic15PNhphc.py",
+        "approximant": "Hyperbolic15PNhphc",
         })
     nparams = kwds.copy()
 
