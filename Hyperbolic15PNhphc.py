@@ -9,7 +9,7 @@ import pycbc.conversions
 from pycbc.types import TimeSeries
 
 
-def hyperbolic_waveform_td(Phi0, vmax, duration, **kwds):
+def hyperbolic_waveform_td(phi0, vmax, duration, **kwds):
     m1 = kwds['mass1']
     m2 = kwds['mass2']
     dt = kwds['delta_t']
@@ -24,7 +24,7 @@ def hyperbolic_waveform_td(Phi0, vmax, duration, **kwds):
     theta2i = kwds['spin2_polar']
     delta_t = kwds['delta_t']
 
-    hp, hc = hyperbolic_waveform_generate.hphc_15PN(Phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t)
+    hp, hc = hyperbolic_waveform_generate.hphc_15PN(phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t)
 
     hp = TimeSeries(hp, delta_t)
     hc = TimeSeries(hc, delta_t)
@@ -44,14 +44,14 @@ def hyperbolic_waveform_fd(**kwds):
     import numpy as np
     if 'approximant' in kwds:
         kwds.pop('approximant')
-    hp, hc = get_td_waveform(approximant="Hyperbolic15PNhphc", **kwds)
+    #hp, hc = get_td_waveform(approximant="Hyperbolic15PNhphc", **kwds)
 
     kwds.update({
         "approximant": "Hyperbolic15PNhphc",
         })
     nparams = kwds.copy()
 
-    full_duration = duration = len(hp)*hp.delta_t
+    #full_duration = duration = len(hp)*hp.delta_t
 
     if 'f_fref' not in nparams:
         nparams['f_ref'] = kwds['f_lower']
