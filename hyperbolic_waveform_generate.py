@@ -8,7 +8,7 @@ c = 299792458 #m/s
 Mpc = 3.08567758128e+22 # m
 
 
-def hphc_15PN(phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t):
+def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t, phi0):
     #derived quantitie
     #go from imput parameters to simulation parameters
     j0 = np.sqrt(et0**2-1)

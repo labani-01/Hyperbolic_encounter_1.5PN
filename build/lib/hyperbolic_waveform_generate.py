@@ -8,21 +8,20 @@ c = 299792458 #m/s
 Mpc = 3.08567758128e+22 # m
 
 
-def hphc_15PN(Phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t):
-    #derived quantities
-	#time intervals
-	#go from imput parameters to simulation parameters
+def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t, phi0):
+    #derived quantitie
+    #go from imput parameters to simulation parameters
     j0 = np.sqrt(et0**2-1)
     xi0 = (np.sqrt((et0-1)/(et0+1))*vmax)**3
-
-	#simulation time interval array
+   
+    #simulation time interval array
     t0_s = -duration/2.0
     tf_s = duration/2.0
     sample_rate = 1/delta_t
     t_eval_s = delta_t*np.arange(int(t0_s*sample_rate),int(tf_s*sample_rate))
     N_eval = t_eval_s.size 		
 
-	#go from SI imput units to obscure simulation units (event is centered)
+    #go from SI imput units to obscure simulation units (event is centered)
     t_evaln = (t_eval_s-t_eval_s[N_eval//2])/(GMsun*(m1+m2)/(c**3)) # GM=c=1 units
     t0 = t_evaln[0] 
     tf = t_evaln[N_eval-1]
@@ -131,7 +130,7 @@ def hphc_15PN(Phi0, vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, 
         return dy_return
     
     #initial conditions
-    y0 = np.array([xi0,et0,Phi0,k0[0],k0[1],k0[2],s10[0],s10[1],s10[2],s20[0],s20[1],s20[2]])
+    y0 = np.array([xi0,et0,phi0,k0[0],k0[1],k0[2],s10[0],s10[1],s10[2],s20[0],s20[1],s20[2]])
 
     #solve differential equation
     sol = solve_ivp(dy,tspan,y0, method = 'RK45',t_eval = t_eval, rtol = 0.5*(10**(-12)))
