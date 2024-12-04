@@ -114,7 +114,8 @@ def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2
         #derived constants
         alpha = -np.arctan2(k[0],k[1])
         iota = np.arccos(k[2])	
-        dalpha = (k[0]*dk[1]-dk[0]*k[1])/(k[0]**2 + k[1]**2)
+        #dalpha = (k[0]*dk[1]-dk[0]*k[1])/(k[0]**2 + k[1]**2)
+        dalpha = (k[0]*dk[1]-dk[0]*k[1])/np.maximum(k[0]**2 + k[1]**2, 0.00001)
 
         #equation for Phi
         dPhi = (xi*np.sqrt(et**2-1)/((echv-1)**2))*(1-xi23*((eta-4)/(echv-1)-(eta-1)/(et**2-1))-(xi*Sigma/np.sqrt(et**2-1))*(1/(echv-1)+1/(et**2-1)))-dalpha*np.cos(iota)
@@ -165,8 +166,9 @@ def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2
     #derived constants
     alpha = -np.arctan2(k[0],k[1])
     iota = np.arccos(k[2])
-    dalpha = (k[0]*dk[1]-dk[0]*k[1])/(k[0]**2 + k[1]**2)
-    diota = -dk[2]/np.sqrt(1-k[2]**2)
+    dalpha = (k[0]*dk[1]-dk[0]*k[1])/np.maximum(k[0]**2 + k[1]**2, 0.00001)
+    #diota = -dk[2]/np.sqrt(1-k[2]**2)
+    diota = -dk[2]/np.sqrt(np.maximum((1-k[2]**2), 0.00001))
 
     #equation for Phi
     dPhi = (xi*np.sqrt(et**2-1)/((echv-1)**2))*(1-xi23*((eta-4)/(echv-1)-(eta-1)/(et**2-1))-(xi*Sigma/np.sqrt(et**2-1))*(1/(echv-1)+1/(et**2-1)))-dalpha*np.cos(iota)
