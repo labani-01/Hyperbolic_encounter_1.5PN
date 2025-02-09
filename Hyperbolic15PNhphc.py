@@ -7,15 +7,26 @@ from pycbc.waveform import get_td_waveform
 from pycbc.waveform import td_approximants, fd_approximants
 import pycbc.conversions
 from pycbc.types import TimeSeries
-
+import pycbc.coordinates as cord
 
 def hyperbolic_waveform_td(**kwds):
     m1 = kwds['mass1']
     m2 = kwds['mass2']
     dt = kwds['delta_t']
-    et0 = kwds['eccentricity']
+    et0 = kwds.get('alpha2', kwds.get('eccentricity'))
+    
     R = kwds['distance']
     Theta = kwds['inclination']
+    spin1_a, spin1_polar, spin1_azimuthal = cord.cartesian_to_spherical(kwds['spin1x'], kwds['spin1y'], kwds['spin1z'])
+    spin2_a, spin2_polar, spin2_azimuthal = cord.cartesian_to_spherical(kwds['spin2x'], kwds['spin2y'], kwds['spin2z'])
+    kwds.update({
+        'spin1_a': spin1_a,
+        'spin1_polar': spin1_polar,
+        'spin1_azimuthal': spin1_azimuthal,
+        'spin2_a': spin2_a,
+        'spin2_polar': spin2_polar,
+        'spin2_azimuthal': spin2_azimuthal
+    })
     chi1 = kwds['spin1_a']
     chi2 = kwds['spin2_a']
     phi1i = kwds['spin1_azimuthal']
@@ -27,7 +38,10 @@ def hyperbolic_waveform_td(**kwds):
     vmax = kwds['alpha']
     duration = kwds['alpha1']
 
-    hp, hc = hyperbolic_waveform_generate.hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t, phi0)
+    # print(f"vmax: {vmax}, duration: {duration}, chi1: {chi1}, theta1i: {theta1i}, phi1i: {phi1i}, chi2: {chi2}, theta2i: {theta2i}, phi2i: {phi2i}, m1: {m1}, m2: {m2}, et0: {et0}, R: {R}, Theta: {Theta}, delta_t: {delta_t}, phi0: {phi0}")
+    hp, hc = hyperbolic_waveform_generate.hphc_15PN(vmax, duration, chi1, \
+                    theta1i, phi1i, chi2, theta2i, phi2i, \
+                    m1, m2, et0, R, Theta, delta_t, phi0)
 
     hp = TimeSeries(hp, delta_t)
     hc = TimeSeries(hc, delta_t)
