@@ -11,6 +11,8 @@ Mpc = 3.08567758128e+22 # m
 def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t, phi0):
     #derived quantitie
     #go from imput parameters to simulation parameters
+    if et0 <= 1:
+        raise ValueError("et0 must be greater than 1 to avoid complex numbers.")
     j0 = np.sqrt(et0**2-1)
     xi0 = (np.sqrt((et0-1)/(et0+1))*vmax)**3
    
@@ -46,7 +48,8 @@ def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2
     #initial direction of angular momentum
     kx0 = -(xi0**(1/3.0))*(S1*np.sin(theta1i)*np.cos(phi1i)+S2*np.sin(theta2i)*np.cos(phi2i))/np.sqrt(et0**2-1)
     ky0 = -(xi0**(1/3.0))*(S1*np.sin(theta1i)*np.sin(phi1i)+S2*np.sin(theta2i)*np.sin(phi2i))/np.sqrt(et0**2-1)
-    kz0 = np.sqrt(1-kx0**2-ky0**2)
+    #should ensure that the value inside the square root is non-negative.   
+    kz0 = np.sqrt(np.maximum(1 - kx0**2 - ky0**2, 0)) 
     k0 = np.array([kx0,ky0,kz0])
     
     #constant of motion Sigma
