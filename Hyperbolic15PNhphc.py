@@ -40,14 +40,20 @@ def hyperbolic_waveform_td(**kwds):
     hp, hc = hyperbolic_waveform_generate.hphc_15PN(vmax, duration, chi1, \
                     theta1i, phi1i, chi2, theta2i, phi2i, \
                     m1, m2, et0, R, Theta, delta_t, phi0)
-    
+
     hp = TimeSeries(hp, delta_t)
     hc = TimeSeries(hc, delta_t)
 
-    t = hp.sample_times - hp.sample_times[np.argmax(hp)+1]
+    # t = hp.sample_times - hp.sample_times[np.argmax(hp)+1]
+    #hp = TimeSeries(hp, delta_t, epoch=min(t))
+    #hc = TimeSeries(hc, delta_t, epoch=min(t))
 
-    hp = TimeSeries(hp, delta_t, epoch=min(t))
-    hc = TimeSeries(hc, delta_t, epoch=min(t))
+    # Find the peak time and shift the time axis
+    t_shift = hp.sample_times[np.argmax(hp)]
+
+    hp = TimeSeries(hp.data, delta_t, epoch=-t_shift)
+    hc = TimeSeries(hc.data, delta_t, epoch=-t_shift)
+    
     return hp, hc
 
 
