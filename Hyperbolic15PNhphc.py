@@ -13,8 +13,6 @@ def hyperbolic_waveform_td(**kwds):
     m1 = kwds['mass1']
     m2 = kwds['mass2']
     dt = kwds['delta_t']
-    et0 = kwds.get('alpha2', kwds.get('eccentricity'))
-    
     R = kwds['distance']
     Theta = kwds['inclination']
     spin1_a, spin1_polar, spin1_azimuthal = cord.cartesian_to_spherical(kwds['spin1x'], kwds['spin1y'], kwds['spin1z'])
@@ -35,10 +33,10 @@ def hyperbolic_waveform_td(**kwds):
     theta2i = kwds['spin2_polar']
     delta_t = kwds['delta_t']
     phi0 = kwds['coa_phase']
-    vmax = kwds['alpha']
-    duration = kwds['alpha1']
+    vmax =  kwds.get('alpha', kwds.get('vmax'))
+    duration = kwds.get('alpha1', kwds.get('duration'))
+    et0 = kwds.get('alpha2', kwds.get('eccentricity'))
 
-    # print(f"vmax: {vmax}, duration: {duration}, chi1: {chi1}, theta1i: {theta1i}, phi1i: {phi1i}, chi2: {chi2}, theta2i: {theta2i}, phi2i: {phi2i}, m1: {m1}, m2: {m2}, et0: {et0}, R: {R}, Theta: {Theta}, delta_t: {delta_t}, phi0: {phi0}")
     hp, hc = hyperbolic_waveform_generate.hphc_15PN(vmax, duration, chi1, \
                     theta1i, phi1i, chi2, theta2i, phi2i, \
                     m1, m2, et0, R, Theta, delta_t, phi0)
@@ -46,10 +44,16 @@ def hyperbolic_waveform_td(**kwds):
     hp = TimeSeries(hp, delta_t)
     hc = TimeSeries(hc, delta_t)
 
-    t = hp.sample_times - hp.sample_times[np.argmax(hp)+1]
+    # t = hp.sample_times - hp.sample_times[np.argmax(hp)+1]
+    #hp = TimeSeries(hp, delta_t, epoch=min(t))
+    #hc = TimeSeries(hc, delta_t, epoch=min(t))
 
-    hp = TimeSeries(hp, delta_t, epoch=min(t))
-    hc = TimeSeries(hc, delta_t, epoch=min(t))
+    # Find the peak time and shift the time axis
+    t_shift = hp.sample_times[np.argmax(hp)]
+
+    hp = TimeSeries(hp.data, delta_t, epoch=-t_shift)
+    hc = TimeSeries(hc.data, delta_t, epoch=-t_shift)
+
     return hp, hc
 
 
