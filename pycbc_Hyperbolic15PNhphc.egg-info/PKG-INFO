@@ -1,11 +1,11 @@
-Metadata-Version: 2.2
+Metadata-Version: 2.1
 Name: pycbc-Hyperbolic15PNhphc
-Version: 0.0.dev0
+Version: 1.0.dev0
 Summary: New waveform to generate hyperbolic encounter plugin PyCBC
 Home-page: http://www.pycbc.org/
 Download-URL: https://github.com/labani-01/Hyperbolic_encounter_1.5PN
-Author: The PyCBC team
-Author-email: labannyo2000@gmail.org
+Author: Labani Roy, Kanchan Soni
+Author-email: lroy02@syr.edu, ksoni01@syr.edu
 Keywords: pycbc,signal processing,gravitational waves
 Classifier: Programming Language :: Python
 Classifier: Programming Language :: Python :: 2.7
@@ -17,11 +17,3 @@ Classifier: Topic :: Scientific/Engineering :: Astronomy
 Classifier: Topic :: Scientific/Engineering :: Physics
 Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
 Requires-Dist: pycbc
-Dynamic: author
-Dynamic: author-email
-Dynamic: classifier
-Dynamic: download-url
-Dynamic: home-page
-Dynamic: keywords
-Dynamic: requires-dist
-Dynamic: summary
