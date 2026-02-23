@@ -3,7 +3,7 @@ from scipy.integrate import solve_ivp
 from pycbc.types import TimeSeries
 
 #Unit conversion
-GMsun = 1.32712440018e20 #m**3/s**2
+GMsun = 1.32712440018e20 #m**3/s**2 
 c = 299792458 #m/s
 Mpc = 3.08567758128e+22 # m
 
@@ -13,7 +13,7 @@ def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2
     #go from imput parameters to simulation parameters
     if et0 <= 1:
         raise ValueError("et0 must be greater than 1 to avoid complex numbers.")
-    j0 = np.sqrt(et0**2-1)
+    j0 = np.sqrt(et0**2-1)  
     xi0 = (np.sqrt((et0-1)/(et0+1))*vmax)**3
 
     #simulation time interval array
@@ -21,11 +21,11 @@ def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2
     tf_s = duration/2.0
     sample_rate = 1/delta_t
     t_eval_s = delta_t*np.arange(int(t0_s*sample_rate),int(tf_s*sample_rate))
-    N_eval = t_eval_s.size
+    N_eval = t_eval_s.size 		
 
     #go from SI imput units to obscure simulation units (event is centered)
     t_evaln = (t_eval_s-t_eval_s[N_eval//2])/(GMsun*(m1+m2)/(c**3)) # GM=c=1 units
-    t0 = t_evaln[0]
+    t0 = t_evaln[0] 
     tf = t_evaln[N_eval-1]
     tspan = np.array([t0,tf])
     t_eval = np.linspace(t0,tf,N_eval)
@@ -117,7 +117,7 @@ def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2
 
         #derived constants
         alpha = -np.arctan2(k[0],k[1])
-        iota = np.arccos(k[2])
+        iota = np.arccos(k[2])	
         #dalpha = (k[0]*dk[1]-dk[0]*k[1])/(k[0]**2 + k[1]**2)
         dalpha = (k[0]*dk[1]-dk[0]*k[1])/np.maximum(k[0]**2 + k[1]**2, 0.00001)
 
@@ -240,7 +240,7 @@ def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2
     nothplus = ((qn2-pn2)*z+pv2-qv2)-(delta/2)*((Nn*dr-Nv)*z*pn2-6*z*Nn*pn*pv+(-3*Nn*dr+Nv)*z*qn2+6*z*Nn*qn*qv+2*(pv2-qv2)*Nv)+(1.0/6)*(6*Nv2*(pv2-qv2)*(1-3*eta) +((6*eta-2)*Nv2*pn2+(96*eta-32)*Nv*Nn*pv*pn+(-6*eta+2)*Nv2*qn2+(-96*eta+32)*Nv*Nn*qv*qn+((-14+42*eta)*Nn2-4+6*eta)*pv2+((-42*eta+14)*Nn2+4-6*eta)*qv2)*z + ((-9*eta+3)*pv2+(-3+9*eta)*qv2)*vv+((29+(7-21*eta)*Nn2)*pn2+(-29+(21*eta-7)*Nn2)*qn2)*z2+(((-9*eta+3)*Nn2-10-3*eta)*pn2+((-3+9*eta)*Nn2+10+3*eta)*qn2)*z*vv + ((-36*eta+12)*Nv*Nn*pn2+((-90*eta+30)*Nn2+20+12*eta)*pv*pn+(-12+36*eta)*Nv*Nn*qn2+((90*eta-30)*Nn2-12*eta-20)*qv*qn)*z*dr+(((45*eta-15)*Nn2-9*eta+3)*pn2 + ((15-45*eta)*Nn2-3+9*eta)*qn2)*z*dr2)+z2*(pn*(X2*chi2*ps2xN-X1*chi1*ps1xN)+qn*(X1*chi1*qs1xN-X2*chi2*qs2xN))
 
     #unitless distance
-    R1 = ((c**2)/(GMsun*(m1+m2)))*R*Mpc
+    R1 = ((c**2)/(GMsun*(m1+m2)))*R*Mpc 
 
     hcross = (4*eta/R1)*nothcross
     hplus = (2*eta/R1)*nothplus
