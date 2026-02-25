@@ -1,12 +1,12 @@
 import numpy as np
 from scipy.integrate import solve_ivp
 from pycbc.types import TimeSeries
+import lal 
 
 #Unit conversion
-GMsun = 1.32712440018e20 #m**3/s**2 
-c = 299792458 #m/s
-Mpc = 3.08567758128e+22 # m
-
+GMsun = lal.GMSUN_SI     # G * M_sun in m^3 / s^2
+c = lal.C_SI             # speed of light (m/s)
+Mpc = lal.PC_SI * 1e6    # parsec to meters
 
 def hphc_15PN(vmax, duration, chi1, theta1i, phi1i, chi2, theta2i, phi2i, m1, m2, et0, R, Theta, delta_t, phi0):
     #derived quantitie
