@@ -54,14 +54,8 @@ def hyperbolic_waveform_td(**kwds):
     duration=duration
     )
 
-    hp = TimeSeries(hp, delta_t)
-    hc = TimeSeries(hc, delta_t)
-    # Find the peak time and shift both hp and hc (in time) with the same amount
-    t_shift_hp = hp.sample_times[np.argmax(hp)]
-    t_shift_hc = hc.sample_times[np.argmax(hc)]
-
-    hp = TimeSeries(hp.data, delta_t, epoch=-t_shift_hp)
-    hc = TimeSeries(hc.data, delta_t, epoch=-t_shift_hc)
+    hp = TimeSeries(hp, delta_t, epoch=-duration/2.0)
+    hc = TimeSeries(hc.data, delta_t, epoch=-duration/2.0)
 
     hp_tapered = hp.taper_timeseries('TAPER_STARTEND')
     hc_tapered = hc.taper_timeseries('TAPER_STARTEND')
